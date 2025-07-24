@@ -5,10 +5,15 @@
               name="Real Estate"
               sequence="10"/>
 
-    <!-- Submenu (Danh sách property) -->
+    <!-- Submenu -->
     <menuitem id="estate_menu_properties"
-              name="Properties"
+              name="Advertisements"
               parent="estate_menu_root"
-              action="action_estate_property"
               sequence="10"/>
+
+    <!-- Action Menu -->
+    <menuitem id="estate_menu_property_action"
+              name="Properties"
+              parent="estate_menu_properties"
+              action="action_estate_property"/>
 </odoo>
