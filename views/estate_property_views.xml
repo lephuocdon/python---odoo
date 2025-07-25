@@ -18,6 +18,7 @@
                 <field name="bedroom" />
                 <field name="living_area" filter_domain="[('living_area', '>=', self)]" />
                 <field name="facades" />
+                <field name="property_type_id" />
                 <filter name="available" string="Available"
                     domain="[('state', 'in', ['new', 'offer_received'])]" />
                 <filter name="postcode" string="Postcode" context="{'group_by':'postcode'}" />
@@ -33,6 +34,7 @@
         <field name="arch" type="xml">
             <list string="Properties">
                 <field name="name" />
+                <field name="property_type_id" />
                 <field name="postcode" />
                 <field name="bedroom" />
                 <field name="living_area" />
@@ -57,7 +59,9 @@
                     </div>
 
                     <group>
+                        <field name="tag_ids" widget="many2many_tags" class="pb-3" />
                         <group>
+                            <field name="property_type_id" />
                             <field name="postcode" />
                             <field name="date_availability" />
                             <field name="state" groups="base.group_no_one" />
@@ -79,6 +83,15 @@
                                 <field name="garden" />
                                 <field name="garden_area" invisible="not garden" />
                                 <field name="garden_orientation" invisible="not garden" />
+                            </group>
+                        </page>
+                        <page string="Offers">
+                            <field name="offer_ids" />
+                        </page>
+                        <page string="Other Info">
+                            <group>
+                                <field name="salesperson_id" />
+                                <field name="buyer_id" />
                             </group>
                         </page>
                         <page string="Active">
