@@ -6,6 +6,25 @@
         <field name="view_mode">list,form</field>
     </record>
 
+    <!-- Search & Filter -->
+    <record id="view_estate_property_search_filter" model="ir.ui.view">
+        <field name="name">estate.property.search.filter</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="postcode" />
+                <field name="expected_price" />
+                <field name="bedroom" />
+                <field name="living_area" filter_domain="[('living_area', '>=', self)]" />
+                <field name="facades" />
+                <filter name="available" string="Available"
+                    domain="[('state', 'in', ['new', 'offer_received'])]" />
+                <filter name="postcode" string="Postcode" context="{'group_by':'postcode'}" />
+            </search>
+        </field>
+    </record>
+
     <!-- list View (List View) -->
     <record id="view_estate_property_list" model="ir.ui.view">
         <field name="name">estate.property.list</field>
@@ -41,6 +60,7 @@
                         <group>
                             <field name="postcode" />
                             <field name="date_availability" />
+                            <field name="state" groups="base.group_no_one" />
                         </group>
                         <group>
                             <field name="expected_price" />
@@ -61,10 +81,12 @@
                                 <field name="garden_orientation" invisible="not garden" />
                             </group>
                         </page>
+                        <page string="Active">
+                            <group>
+                                <field name="active" />
+                            </group>
+                        </page>
                     </notebook>
-                    <group>
-                        <field name="active" />
-                    </group>
                 </sheet>
             </form>
         </field>
