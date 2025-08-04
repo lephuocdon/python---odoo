@@ -31,6 +31,7 @@ class EstateProperty(models.Model):
     )
     active = fields.Boolean(default=False)
     state = fields.Selection(
+        string="Status",
         selection=[
             ('new', 'New'),
             ('offer_received', 'Offer Received'),
@@ -41,6 +42,7 @@ class EstateProperty(models.Model):
         required=True,
         copy=False,
         default='new',
+        group_expand="_expand_group_state",
     )
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
     salesperson_id = fields.Many2one("res.users", string="Salesman", index=True, default=lambda self: self.env.user)
@@ -64,6 +66,10 @@ class EstateProperty(models.Model):
             if not float_is_zero(record.selling_price, precision_digits=precision):
                 if float_compare(record.selling_price, 0.9 * record.expected_price, precision_digits=precision) < 0:
                     raise ValidationError("Selling price cannot be lower than 90% of the expected price.")
+                
+    @api.model
+    def _expand_group_state(self, values, domain=None, order=None):
+        return ['new', 'offer_received', 'offer_accepted', 'sold', 'canceled']
 
 
     @api.depends("living_area", "garden_area")
