@@ -3,7 +3,7 @@
     'version': '1.0',
     'category': 'Real Estate',
     'summary': 'Manage real estate properties and offers',
-    'depends': ['base'],
+    'depends': ['base', 'mail'],
     'data': [
     'views/res_users_views.xml',
     'views/estate_property_views.xml',

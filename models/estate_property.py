@@ -6,13 +6,14 @@ from dateutil.relativedelta import relativedelta
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Real Estate Property"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "id desc"
 
-    name = fields.Char("Title", required=True)
+    name = fields.Char("Title", required=True, tracking=True)
     description = fields.Text()
     postcode = fields.Char()
     date_availability = fields.Date("Available From", copy=False, default=lambda self: fields.Datetime.now() + relativedelta(months=3))
-    expected_price = fields.Float(required=True)
+    expected_price = fields.Float(required=True, tracking=True)
     selling_price = fields.Float(readonly=True, copy=False)
     bedroom = fields.Integer(default=2)
     living_area = fields.Integer("Living Area (sqm)")
@@ -43,6 +44,7 @@ class EstateProperty(models.Model):
         copy=False,
         default='new',
         group_expand="_expand_group_state",
+        tracking=True,
     )
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
     salesperson_id = fields.Many2one("res.users", string="Salesman", index=True, default=lambda self: self.env.user)
